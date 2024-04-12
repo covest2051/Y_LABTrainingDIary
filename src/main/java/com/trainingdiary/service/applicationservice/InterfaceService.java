@@ -12,8 +12,14 @@ import com.trainingdiary.service.userservice.UserSession;
 
 import static com.trainingdiary.service.applicationservice.WorkoutService.*;
 
+/**
+ * Provides user interfaces for regular users and admins.
+ */
 public class InterfaceService {
 
+    /**
+     * Displays the menu for regular users.
+     */
     public static void showRegularUserMenu() {
         com.trainingdiary.out.OutputManager.print("""
                 1. Начать тренировку
@@ -42,6 +48,10 @@ public class InterfaceService {
 
         }
     }
+
+    /**
+     * Displays the menu for admin users.
+     */
     public static void showAdminMenu() {
         com.trainingdiary.out.OutputManager.print("""
                 1. Просмотреть тренировки пользователя
@@ -76,8 +86,9 @@ public class InterfaceService {
         }
     }
 
-
-
+    /**
+     * Displays the menu for starting a workout.
+     */
     public static void showStartWorkoutMenu() {
         com.trainingdiary.out.OutputManager.print("Выберите тип тренировки");
         showWorkoutTypes();
@@ -93,6 +104,12 @@ public class InterfaceService {
         }
     }
 
+    /**
+     * Creates a new Workout based on the user's choice.
+     *
+     * @param choice The user's choice of workout type.
+     * @return A new Workout of the chosen type, or null if the choice is invalid.
+     */
     public static Workout createWorkout(int choice) {
         switch (choice) {
             case 1:
@@ -106,7 +123,12 @@ public class InterfaceService {
         }
     }
 
-
+    /**
+     * Starts a workout if the user has not done a workout of the same type today.
+     *
+     * @param workout The workout to start.
+     * @param workoutType The type of the workout.
+     */
     public static void startWorkoutIfNotDoneToday(Workout workout, String workoutType) {
         if (UserSession.getCurrentUser().hasWorkoutToday(workoutType)) {
             com.trainingdiary.out.OutputManager.print("У вас уже была тренировка данного типа сегодня");
@@ -116,6 +138,9 @@ public class InterfaceService {
         }
     }
 
+    /**
+     * Displays the available workout types to the user.
+     */
     static void showWorkoutTypes() {
         com.trainingdiary.out.OutputManager.print("""
                 Выберите тип тренировки

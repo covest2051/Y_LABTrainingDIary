@@ -9,16 +9,40 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeMap;
 
+/**
+ * Abstract class representing a user.
+ * This class should be extended by specific types of users.
+ */
 public abstract class User {
+    /**
+     * The username of the user.
+     */
     protected String username;
+    /**
+     * The password of the user.
+     */
     protected String password;
+    /**
+     * The list of workouts performed by the user.
+     */
     protected Map<LocalDate, Map<String, Workout>> individualWorkoutsList = new TreeMap<>();
 
+    /**
+     * Constructor for the User class.
+     *
+     * @param username The username of the user.
+     * @param password The password of the user.
+     */
     public User(String username, String password) {
         this.username = username;
         this.password = password;
     }
 
+    /**
+     * Adds a workout to the user's workout list.
+     *
+     * @param workout The workout to add.
+     */
     public void addWorkout(Workout workout) {
         LocalDate workoutDate = workout.getWorkoutDate();
         String workoutType = workout.getWorkoutType();
@@ -34,15 +58,29 @@ public abstract class User {
         individualWorkoutsList.get(workoutDate).put(workoutType, workout);
     }
 
+    /**
+     * Checks if the user has done a workout of the given type today.
+     *
+     * @param workoutType The type of the workout.
+     * @return true if the user has done a workout of the given type today, false otherwise.
+     */
     public boolean hasWorkoutToday(String workoutType) {
         LocalDate today = LocalDate.now();
         return individualWorkoutsList.containsKey(today) && individualWorkoutsList.get(today).containsKey(workoutType);
     }
 
+    /**
+     * Returns the user's password.
+     *
+     * @return The user's password.
+     */
     public String getPassword() {
         return password;
     }
 
+    /**
+     * Displays the user's workout history.
+     */
     public void viewWorkoutHistory() {
         for (Map.Entry<LocalDate, Map<String, Workout>> entry : individualWorkoutsList.entrySet()) {
             com.trainingdiary.out.OutputManager.print("Дата: " + entry.getKey());
@@ -80,7 +118,9 @@ public abstract class User {
         }
     }
 
-
+    /**
+     * Displays the user's workout statistics.
+     */
     public void viewWorkoutStatistics() {
         int totalCaloriesBurned = 0;
         for (Map<String, Workout> workouts : individualWorkoutsList.values()) {
@@ -91,6 +131,12 @@ public abstract class User {
         com.trainingdiary.out.OutputManager.print("Общее количество сожженных калорий: " + totalCaloriesBurned);
     }
 
+    /**
+     * Deletes a workout from the user's workout list.
+     *
+     * @param date The date of the workout.
+     * @param workoutType The type of the workout.
+     */
     public void deleteWorkout(LocalDate date, String workoutType) {
         if (individualWorkoutsList.containsKey(date) && individualWorkoutsList.get(date).containsKey(workoutType)) {
             individualWorkoutsList.get(date).remove(workoutType);
@@ -100,6 +146,12 @@ public abstract class User {
         }
     }
 
+    /**
+     * Edits a workout in the user's workout list.
+     *
+     * @param date The date of the workout.
+     * @param workoutType The type of the workout.
+     */
     public void editWorkout(LocalDate date, String workoutType) {
         if (individualWorkoutsList.containsKey(date) && individualWorkoutsList.get(date).containsKey(workoutType)) {
             Workout workout = individualWorkoutsList.get(date).get(workoutType);
@@ -113,10 +165,20 @@ public abstract class User {
         }
     }
 
+    /**
+     * Returns the user's list of workouts.
+     *
+     * @return The user's list of workouts.
+     */
     public Map<LocalDate, Map<String, Workout>> getIndividualWorkoutsList() {
         return individualWorkoutsList;
     }
 
+    /**
+     * Returns the username of the user.
+     *
+     * @return The username of the user.
+     */
     public String getUsername() {
         return username;
     }

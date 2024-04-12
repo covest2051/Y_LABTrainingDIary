@@ -10,6 +10,11 @@ import java.util.Scanner;
 
 public class WorkoutService {
 
+    /**
+     * Starts a workout and adds it to the current user's workout list.
+     *
+     * @param workoutType The type of workout to start.
+     */
     public static void startWorkout(Workout workoutType) {
         Instant now = Instant.now();
         com.trainingdiary.out.OutputManager.print("Тренировка началась. Нажмите Enter когда закончите");
@@ -35,7 +40,13 @@ public class WorkoutService {
         InterfaceService.showRegularUserMenu();
     }
 
-
+    /**
+     * Displays the results of a workout.
+     *
+     * @param workoutType The type of workout.
+     * @param now The start time of the workout.
+     * @param end The end time of the workout.
+     */
     public static void showResults(Workout workoutType, Instant now, Instant end) {
         Duration duration = Duration.between(now, end);
         long minutes = duration.toMinutes();

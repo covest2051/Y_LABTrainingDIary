@@ -9,13 +9,22 @@ import com.trainingdiary.service.userservice.UserSession;
 import java.util.HashMap;
 import java.util.Map;
 
-
+/**
+ * Handles user registration and login.
+ */
 public class AuthorizationService {
+    /**
+     * Stores registered users.
+     */
     private final Map<String, User> users = new HashMap<>();
     private static final int MIN_USERNAME_LENGTH = 6;
     private static final int MIN_PASSWORD_LENGTH = 6;
 
-
+    /**
+     * Registers a new user.
+     *
+     * @return UserSession for the registered user, or null if registration failed.
+     */
     public UserSession register() {
         com.trainingdiary.out.OutputManager.print("Введите имя пользователя:");
         String username = com.trainingdiary.in.InputManager.readString();
@@ -50,6 +59,11 @@ public class AuthorizationService {
         return new UserSession(user, this, new WorkoutService());
     }
 
+    /**
+     * Logs in a user.
+     *
+     * @return UserSession for the logged-in user, or null if login failed.
+     */
     public UserSession login() {
         com.trainingdiary.out.OutputManager.print("Введите имя пользователя:");
         String username = com.trainingdiary.in.InputManager.readString();
@@ -64,6 +78,12 @@ public class AuthorizationService {
         return new UserSession(user, this, new WorkoutService());
     }
 
+    /**
+     * Retrieves a User by username.
+     *
+     * @param username The username of the User.
+     * @return The User with the given username.
+     */
     public User getUserByUsername(String username) {
         return users.get(username);
     }

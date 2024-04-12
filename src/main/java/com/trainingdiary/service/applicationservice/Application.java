@@ -4,14 +4,30 @@ import com.trainingdiary.service.userservice.Admin;
 import com.trainingdiary.service.userservice.RegularUser;
 import com.trainingdiary.service.userservice.UserSession;
 
+/**
+ * Main entry point of the application.
+ */
 public class Application {
+    /**
+     * Used for user registration and login.
+     */
     private final AuthorizationService authService;
+
+    /**
+     * Current UserSession. Null if no user is logged in.
+     */
     private UserSession session = null;
 
+    /**
+     * Initializes the AuthorizationService.
+     */
     public Application() {
         this.authService = new AuthorizationService();
     }
 
+    /**
+     * Handles the user's session and provides an interface for user interaction.
+     */
     public void run() {
         while (true) {
             com.trainingdiary.out.OutputManager.print("1. Регистрация\n2. Вход\n3. Выход");
