@@ -56,4 +56,8 @@ public class Yoga extends Workout
                 "\n Количество упражнений: " + countOfExercises +
                 "\n Общее количество асанов: " + numberOfAsanaPerformed;
     }
+
+    public int getNumberOfAsanaPerformed() {
+        return numberOfAsanaPerformed;
+    }
 }

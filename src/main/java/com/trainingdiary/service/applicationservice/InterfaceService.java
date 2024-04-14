@@ -4,11 +4,7 @@ package com.trainingdiary.service.applicationservice;
 
 import com.trainingdiary.adapters.in.InputManager;
 import com.trainingdiary.adapters.out.OutputManager;
-import com.trainingdiary.domain.CardioWorkout;
-import com.trainingdiary.domain.StrengthWorkout;
-import com.trainingdiary.domain.Workout;
-import com.trainingdiary.domain.Yoga;
-import com.trainingdiary.domain.Admin;
+import com.trainingdiary.domain.*;
 import com.trainingdiary.service.userservice.UserSession;
 
 
@@ -96,13 +92,25 @@ public class InterfaceService {
         showWorkoutTypes();
         int choice = InputManager.readInt();
         InputManager.readString();
-        Workout workout = createWorkout(choice);
-        if (workout != null) {
-            String workoutType = workout.getWorkoutType();
-            startWorkoutIfNotDoneToday(workout, workoutType);
+        WorkoutFactory factory = createWorkoutFactory(choice);
+        if (factory != null) {
+            UserSession.getCurrentUser().addWorkout(factory);
         } else {
             OutputManager.print("Введено неверное значение");
             showStartWorkoutMenu();
+        }
+    }
+
+    public static WorkoutFactory createWorkoutFactory(int choice) {
+        switch (choice) {
+            case 1:
+                return new CardioWorkoutFactory();
+            case 2:
+                return new StrengthWorkoutFactory();
+            case 3:
+                return new YogaWorkoutFactory();
+            default:
+                return null;
         }
     }
 

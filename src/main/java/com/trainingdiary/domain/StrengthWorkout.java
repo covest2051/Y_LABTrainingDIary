@@ -57,4 +57,7 @@ public class StrengthWorkout extends Workout
                 "\n Общий поднятый вес: " + totalWeightLifted;
     }
 
+    public int getTotalWeightLifted() {
+        return totalWeightLifted;
+    }
 }

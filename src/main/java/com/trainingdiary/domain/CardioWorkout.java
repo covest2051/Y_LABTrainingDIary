@@ -41,6 +41,10 @@ public class CardioWorkout extends Workout
         this.distanceCovered = distanceCovered;
     }
 
+    public int getDistanceCovered() {
+        return distanceCovered;
+    }
+
     /**
      * Returns a string representation of the workout.
      *

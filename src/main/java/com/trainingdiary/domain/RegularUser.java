@@ -1,6 +1,7 @@
 package com.trainingdiary.domain;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,8 @@ public class RegularUser extends User
     /**
      * The audit log for the user's actions.
      */
-    private final List<String> auditLog = new ArrayList<>();
+    protected List<AuditRecord> auditLog = new ArrayList<>();
+
 
     /**
      * Constructor for the RegularUser class.
@@ -22,18 +24,17 @@ public class RegularUser extends User
      */
     public RegularUser(String username, String password) {
         super(username, password);
-        auditLog.add("User " + username + " created");
+        this.auditLog.add(new AuditRecord(LocalDateTime.now(), "User " + username + " created", this.username));
     }
 
     /**
      * Adds a workout to the user's workout list and updates the audit log.
-     *
-     * @param workout The workout to add.
      */
     @Override
-    public void addWorkout(Workout workout) {
-        super.addWorkout(workout);
-        auditLog.add("Added a new workout");
+    public void addWorkout(WorkoutFactory factory) {
+        Workout workout = factory.createWorkout();
+        super.addWorkout(factory);
+        this.auditLog.add(new AuditRecord(LocalDateTime.now(), "Added a new workout", this.username));
     }
 
     /**
@@ -45,7 +46,7 @@ public class RegularUser extends User
     @Override
     public void editWorkout(LocalDate date, String workoutType) {
         super.editWorkout(date, workoutType);
-        auditLog.add("Edited a workout");
+        this.auditLog.add(new AuditRecord(LocalDateTime.now(), "Edited a workout", this.username));
     }
 
     /**
@@ -57,7 +58,7 @@ public class RegularUser extends User
     @Override
     public void deleteWorkout(LocalDate date, String workoutType) {
         super.deleteWorkout(date, workoutType);
-        auditLog.add("Deleted a workout");
+        this.auditLog.add(new AuditRecord(LocalDateTime.now(), "Deleted a new workout", this.username));
     }
 
     /**
@@ -66,7 +67,7 @@ public class RegularUser extends User
     @Override
     public void viewWorkoutHistory() {
         super.viewWorkoutHistory();
-        auditLog.add("Viewed workout history");
+        this.auditLog.add(new AuditRecord(LocalDateTime.now(), "Viewed workout history", this.username));
     }
 
     /**
@@ -75,7 +76,7 @@ public class RegularUser extends User
     @Override
     public void viewWorkoutStatistics() {
         super.viewWorkoutStatistics();
-        auditLog.add("Viewed workout statistics");
+        this.auditLog.add(new AuditRecord(LocalDateTime.now(), "Viewed workout statistics", this.username));
     }
 
     /**
@@ -83,7 +84,7 @@ public class RegularUser extends User
      *
      * @return The user's audit log.
      */
-    public List<String> getAuditLog() {
+    public List<AuditRecord> getAuditLog() {
         return auditLog;
     }
 }

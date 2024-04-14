@@ -1,23 +1,28 @@
 package com.trainingdiary.domain;
 
-import com.trainingdiary.domain.User;
-import com.trainingdiary.domain.Workout;
-import org.junit.Assert;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
+
+import java.time.LocalDate;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class UserTest {
     @Test
     public void testAddWorkout() {
-        // Создайте экземпляр класса User
         User user = new RegularUser("testUser", "testPassword");
+        WorkoutFactory workoutFactory = new CardioWorkoutFactory();
+        user.addWorkout(workoutFactory);
+        LocalDate today = LocalDate.now();
+        assertTrue(user.getIndividualWorkoutsList().get(today).containsKey("Cardio"));
+    }
 
-        // Создайте экземпляр класса Workout
-        Workout workout = new Yoga();
-
-        // Добавьте тренировку
-        user.addWorkout(workout);
-
-        // Проверьте, была ли тренировка добавлена правильно
-        Assert.assertTrue(user.getIndividualWorkoutsList().containsValue(workout));
+    @Test
+    public void testHasWorkoutToday() {
+        User user = new RegularUser("testUser", "testPassword");
+        WorkoutFactory workoutFactory = new CardioWorkoutFactory();
+        String workoutType = "Cardio";
+        assertFalse(user.hasWorkoutToday(workoutType));
+        user.addWorkout(workoutFactory);
+        assertTrue(user.hasWorkoutToday(workoutType));
     }
 }

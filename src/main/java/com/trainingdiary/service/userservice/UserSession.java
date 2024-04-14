@@ -1,9 +1,11 @@
 package com.trainingdiary.service.userservice;
 
+import com.trainingdiary.domain.AuditRecord;
 import com.trainingdiary.domain.User;
 import com.trainingdiary.usecases.AuthorizationService;
 import com.trainingdiary.usecases.WorkoutService;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +22,7 @@ public class UserSession {
     /**
      * The audit log for the session's actions.
      */
-    private final List<String> auditLog = new ArrayList<>();
+    protected List<AuditRecord> auditLog = new ArrayList<>();
 
     /**
      * Constructor for the UserSession class.
@@ -31,7 +33,8 @@ public class UserSession {
      */
     public UserSession(User user, AuthorizationService authService, WorkoutService workoutService) {
         currentUser = user;
-        auditLog.add("User " + user.getUsername() + " logged in");
+        this.auditLog.add(new AuditRecord(LocalDateTime.now(), "User " + user.getUsername() + " logged in", user.getUsername()));
+
     }
 
     /**

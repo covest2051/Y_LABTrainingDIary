@@ -12,7 +12,6 @@ import java.util.Map;
  * Represents an admin user.
  */
 public class Admin extends User {
-    protected List<AuditRecord> auditLog = new ArrayList<>();
     /**
      * The AuthorizationService instance used for user operations.
      */
@@ -38,13 +37,13 @@ public class Admin extends User {
     public void viewUserAuditLog(String username) {
         User user = authService.getUserByUsername(username);
         if (user instanceof RegularUser) {
-            List<String> auditLog = ((RegularUser) user).getAuditLog();
+            List<AuditRecord> auditLog = ((RegularUser) user).getAuditLog();
             if (auditLog.isEmpty()) {
                 OutputManager.print("У пользователя " + username + " нет записей аудита.");
             } else {
                 OutputManager.print("Аудит пользователя " + username + ":");
-                for (String log : auditLog) {
-                    OutputManager.print(log);
+                for (AuditRecord log : auditLog) {
+                    OutputManager.print(String.valueOf(log));
                 }
             }
         } else {

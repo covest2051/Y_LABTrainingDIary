@@ -13,6 +13,7 @@ import java.util.*;
  * This class should be extended by specific types of users.
  */
 public abstract class User {
+    protected WorkoutFactory factory;
     private final List<AuditRecord> auditLog = new ArrayList<>();
     /**
      * The username of the user.
@@ -41,10 +42,9 @@ public abstract class User {
 
     /**
      * Adds a workout to the user's workout list.
-     *
-     * @param workout The workout to add.
      */
-    public void addWorkout(Workout workout) {
+    public void addWorkout(WorkoutFactory factory) {
+        Workout workout = factory.createWorkout();
         LocalDate workoutDate = workout.getWorkoutDate();
         String workoutType = workout.getWorkoutType();
 

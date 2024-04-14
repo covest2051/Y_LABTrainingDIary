@@ -1,4 +1,4 @@
-package com.trainingdiary.service;
+package com.trainingdiary;
 
 import com.trainingdiary.service.applicationservice.Application;
 

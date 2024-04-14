@@ -2,6 +2,7 @@ package com.trainingdiary.usecases;
 import com.trainingdiary.adapters.in.InputManager;
 import com.trainingdiary.adapters.out.OutputManager;
 import com.trainingdiary.domain.Workout;
+import com.trainingdiary.domain.WorkoutFactory;
 import com.trainingdiary.service.applicationservice.InterfaceService;
 import com.trainingdiary.service.userservice.UserSession;
 
@@ -34,7 +35,7 @@ public class WorkoutService {
         workoutType.setWorkoutDuration(durationString); // предполагая, что setWorkoutDuration принимает строку
 
         // Добавление тренировки в список тренировок пользователя
-        UserSession.getCurrentUser().addWorkout(workoutType);
+        UserSession.getCurrentUser().addWorkout((WorkoutFactory) workoutType);
 
         showResults(workoutType, now, end);
         OutputManager.print("Чтобы вернуться в главное меню нажмите Enter ");
