@@ -2,14 +2,22 @@ package com.trainingdiary.domain;
 
 import com.trainingdiary.adapters.in.InputManager;
 import com.trainingdiary.adapters.out.OutputManager;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Represents a strength workout.
  */
+@Setter
+@Getter
 public class StrengthWorkout extends Workout
 {
     /**
      * The total weight lifted during the workout.
+     * -- SETTER --
+     *  Sets the total weight lifted during the workout.
+     *
+
      */
     private int totalWeightLifted;
 
@@ -34,15 +42,6 @@ public class StrengthWorkout extends Workout
 
 
     /**
-     * Sets the total weight lifted during the workout.
-     *
-     * @param totalWeightLifted The total weight lifted.
-     */
-    public void setTotalWeightLifted(int totalWeightLifted) {
-        this.totalWeightLifted = totalWeightLifted;
-    }
-
-    /**
      * Returns a string representation of the workout.
      *
      * @return A string representation of the workout.
@@ -57,7 +56,4 @@ public class StrengthWorkout extends Workout
                 "\n Общий поднятый вес: " + totalWeightLifted;
     }
 
-    public int getTotalWeightLifted() {
-        return totalWeightLifted;
-    }
 }

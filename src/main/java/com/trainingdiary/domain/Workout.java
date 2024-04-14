@@ -1,11 +1,15 @@
 package com.trainingdiary.domain;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDate;
 
 /**
  * Abstract class representing a workout.
  * This class should be extended by specific types of workouts.
  */
+@Setter
 public abstract class Workout {
     /**
      * Gathers information about the workout from the user.
@@ -17,10 +21,12 @@ public abstract class Workout {
     /**
      * The date of the workout.
      */
-    protected LocalDate workoutDate = null;
+    @Getter
+    protected LocalDate workoutDate;
     /**
      * The type of the workout.
      */
+    @Getter
     protected String workoutType = null;
     /**
      * The duration of the workout.
@@ -29,52 +35,21 @@ public abstract class Workout {
     /**
      * The number of calories burned during the workout.
      */
+    @Getter
     protected short burnedCalories = 0;
     /**
      * The number of exercises performed during the workout.
      */
+    @Getter
     protected byte countOfExercises = 0;
 
 
     // Getters and setters
 
-    public LocalDate getWorkoutDate() {
-        return workoutDate;
+
+    public Workout() {
+        this.workoutDate = LocalDate.now();
     }
-
-    public void setWorkoutDate(LocalDate workoutDate) {
-        this.workoutDate = workoutDate;
-    }
-
-    public String getWorkoutType() {
-        return workoutType;
-    }
-
-    public void setWorkoutType(String workoutType) {
-        this.workoutType = workoutType;
-    }
-
-
-    public void setWorkoutDuration(String workoutDuration) {
-        this.workoutDuration = workoutDuration;
-    }
-
-    public short getBurnedCalories() {
-        return burnedCalories;
-    }
-
-    public void setBurnedCalories(short burnedCalories) {
-        this.burnedCalories = burnedCalories;
-    }
-
-    public byte getCountOfExercises() {
-        return countOfExercises;
-    }
-
-    public void setCountOfExercises(byte countOfExercises) {
-        this.countOfExercises = countOfExercises;
-    }
-
 
     /**
      * Returns a string representation of the workout.

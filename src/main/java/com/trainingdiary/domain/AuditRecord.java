@@ -1,5 +1,7 @@
 package com.trainingdiary.domain;
 
+import lombok.Getter;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -8,6 +10,7 @@ import java.time.format.DateTimeFormatter;
  * Represents an audit record.
  * An audit record is a log of a significant event or change in the system.
  */
+@Getter
 public class AuditRecord {
     private LocalDateTime timestamp;
     private String actionType;
@@ -24,18 +27,6 @@ public class AuditRecord {
         this.timestamp = timestamp;
         this.actionType = actionType;
         this.username = username;
-    }
-
-    public LocalDateTime getTimestamp() {
-        return timestamp;
-    }
-
-    public String getActionType() {
-        return actionType;
-    }
-
-    public String getUsername() {
-        return username;
     }
 
     @Override

@@ -4,7 +4,6 @@ import com.trainingdiary.adapters.out.OutputManager;
 import com.trainingdiary.usecases.AuthorizationService;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 

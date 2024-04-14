@@ -3,6 +3,7 @@ package com.trainingdiary.domain;
 import com.trainingdiary.adapters.in.InputManager;
 import com.trainingdiary.adapters.out.OutputManager;
 import com.trainingdiary.service.applicationservice.InterfaceService;
+import lombok.Getter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -17,14 +18,28 @@ public abstract class User {
     private final List<AuditRecord> auditLog = new ArrayList<>();
     /**
      * The username of the user.
+     * -- GETTER --
+     *  Returns the username of the user.
+     *
+
      */
+    @Getter
     protected String username;
     /**
      * The password of the user.
+     * -- GETTER --
+     *  Returns the user's password.
+     *
+
      */
+    @Getter
     protected String password;
     /**
      * The list of workouts performed by the user.
+     * -- GETTER --
+     *  Returns the user's list of workouts.
+     *
+
      */
     protected Map<LocalDate, Map<String, Workout>> individualWorkoutsList = new TreeMap<>();
 
@@ -38,12 +53,13 @@ public abstract class User {
         this.username = username;
         this.password = password;
         this.auditLog.add(new AuditRecord(LocalDateTime.now(), "User created", username));
+        this.individualWorkoutsList = new TreeMap<>();
     }
 
     /**
      * Adds a workout to the user's workout list.
      */
-    public void addWorkout(WorkoutFactory factory) {
+    public Workout addWorkout(WorkoutFactory factory) {
         Workout workout = factory.createWorkout();
         LocalDate workoutDate = workout.getWorkoutDate();
         String workoutType = workout.getWorkoutType();
@@ -53,11 +69,14 @@ public abstract class User {
         }
 
         if (individualWorkoutsList.get(workoutDate).containsKey(workoutType)) {
-            throw new RuntimeException("Уже есть тренировка этого типа на эту дату");
+            OutputManager.print("У вас уже есть тренировка данного типа на эту дату");
+            return null; // прекращаем выполнение, если тренировка уже есть
+        } else {
+            individualWorkoutsList.get(workoutDate).put(workoutType, workout);
         }
-
-        individualWorkoutsList.get(workoutDate).put(workoutType, workout);
+        return workout; // возвращаем добавленный объект Workout
     }
+
 
     /**
      * Checks if the user has done a workout of the given type today.
@@ -68,15 +87,6 @@ public abstract class User {
     public boolean hasWorkoutToday(String workoutType) {
         LocalDate today = LocalDate.now();
         return individualWorkoutsList.containsKey(today) && individualWorkoutsList.get(today).containsKey(workoutType);
-    }
-
-    /**
-     * Returns the user's password.
-     *
-     * @return The user's password.
-     */
-    public String getPassword() {
-        return password;
     }
 
     /**
@@ -166,21 +176,4 @@ public abstract class User {
         }
     }
 
-    /**
-     * Returns the user's list of workouts.
-     *
-     * @return The user's list of workouts.
-     */
-    public Map<LocalDate, Map<String, Workout>> getIndividualWorkoutsList() {
-        return individualWorkoutsList;
-    }
-
-    /**
-     * Returns the username of the user.
-     *
-     * @return The username of the user.
-     */
-    public String getUsername() {
-        return username;
-    }
 }

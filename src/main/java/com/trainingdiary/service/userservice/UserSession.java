@@ -4,6 +4,7 @@ import com.trainingdiary.domain.AuditRecord;
 import com.trainingdiary.domain.User;
 import com.trainingdiary.usecases.AuthorizationService;
 import com.trainingdiary.usecases.WorkoutService;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -16,7 +17,12 @@ public class UserSession {
 
     /**
      * The current user of the session.
+     * -- GETTER --
+     *  Returns the current user of the session.
+     *
+
      */
+    @Getter
     private static User currentUser;
 
     /**
@@ -37,12 +43,4 @@ public class UserSession {
 
     }
 
-    /**
-     * Returns the current user of the session.
-     *
-     * @return The current user of the session.
-     */
-    public static User getCurrentUser() {
-        return currentUser;
-    }
 }

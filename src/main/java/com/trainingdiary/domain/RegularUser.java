@@ -1,5 +1,7 @@
 package com.trainingdiary.domain;
 
+import lombok.Getter;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -8,10 +10,15 @@ import java.util.List;
 /**
  * Represents a regular user.
  */
+@Getter
 public class RegularUser extends User
 {
     /**
      * The audit log for the user's actions.
+     * -- GETTER --
+     *  Returns the user's audit log.
+     *
+
      */
     protected List<AuditRecord> auditLog = new ArrayList<>();
 
@@ -31,10 +38,10 @@ public class RegularUser extends User
      * Adds a workout to the user's workout list and updates the audit log.
      */
     @Override
-    public void addWorkout(WorkoutFactory factory) {
-        Workout workout = factory.createWorkout();
-        super.addWorkout(factory);
+    public Workout addWorkout(WorkoutFactory factory) {
+        Workout workout = super.addWorkout(factory);
         this.auditLog.add(new AuditRecord(LocalDateTime.now(), "Added a new workout", this.username));
+        return workout;
     }
 
     /**
@@ -79,12 +86,4 @@ public class RegularUser extends User
         this.auditLog.add(new AuditRecord(LocalDateTime.now(), "Viewed workout statistics", this.username));
     }
 
-    /**
-     * Returns the user's audit log.
-     *
-     * @return The user's audit log.
-     */
-    public List<AuditRecord> getAuditLog() {
-        return auditLog;
-    }
 }

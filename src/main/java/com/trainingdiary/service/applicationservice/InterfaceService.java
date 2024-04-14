@@ -6,7 +6,8 @@ import com.trainingdiary.adapters.in.InputManager;
 import com.trainingdiary.adapters.out.OutputManager;
 import com.trainingdiary.domain.*;
 import com.trainingdiary.service.userservice.UserSession;
-
+import com.trainingdiary.usecases.WorkoutService;
+import java.time.Instant;
 
 import static com.trainingdiary.usecases.WorkoutService.*;
 
@@ -94,7 +95,25 @@ public class InterfaceService {
         InputManager.readString();
         WorkoutFactory factory = createWorkoutFactory(choice);
         if (factory != null) {
-            UserSession.getCurrentUser().addWorkout(factory);
+            Workout workout = UserSession.getCurrentUser().addWorkout(factory);
+
+            // Если addWorkout вернул null, возвращаем пользователя в меню
+            if (workout == null) {
+                showRegularUserMenu();
+                return;
+            }
+
+            OutputManager.print("Тренировка началась. Нажмите Enter когда закончите");
+            Instant start = Instant.now();
+            InputManager.readString();
+            Instant end = Instant.now();
+
+            // Вызываем метод showResults здесь
+            WorkoutService.showResults(workout, start, end);
+
+            OutputManager.print("Тренировка успешно добавлена. Нажмите Enter, чтобы вернуться в меню.");
+            InputManager.readString();
+            showRegularUserMenu();
         } else {
             OutputManager.print("Введено неверное значение");
             showStartWorkoutMenu();
@@ -102,16 +121,12 @@ public class InterfaceService {
     }
 
     public static WorkoutFactory createWorkoutFactory(int choice) {
-        switch (choice) {
-            case 1:
-                return new CardioWorkoutFactory();
-            case 2:
-                return new StrengthWorkoutFactory();
-            case 3:
-                return new YogaWorkoutFactory();
-            default:
-                return null;
-        }
+        return switch (choice) {
+            case 1 -> new CardioWorkoutFactory();
+            case 2 -> new StrengthWorkoutFactory();
+            case 3 -> new YogaWorkoutFactory();
+            default -> null;
+        };
     }
 
     /**
@@ -121,16 +136,12 @@ public class InterfaceService {
      * @return A new Workout of the chosen type, or null if the choice is invalid.
      */
     public static Workout createWorkout(int choice) {
-        switch (choice) {
-            case 1:
-                return new CardioWorkout();
-            case 2:
-                return new StrengthWorkout();
-            case 3:
-                return new Yoga();
-            default:
-                return null;
-        }
+        return switch (choice) {
+            case 1 -> new CardioWorkout();
+            case 2 -> new StrengthWorkout();
+            case 3 -> new Yoga();
+            default -> null;
+        };
     }
 
     /**

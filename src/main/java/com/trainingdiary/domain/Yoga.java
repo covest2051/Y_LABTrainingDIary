@@ -2,26 +2,25 @@ package com.trainingdiary.domain;
 
 import com.trainingdiary.adapters.in.InputManager;
 import com.trainingdiary.adapters.out.OutputManager;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Represents a yoga workout.
  */
+@Setter
+@Getter
 public class Yoga extends Workout
 {
 
     /**
      * The number of asana performed during the workout.
+     * -- SETTER --
+     *  Sets the number of asana performed during the workout.
+     *
+
      */
     private int numberOfAsanaPerformed;
-
-    /**
-     * Sets the number of asana performed during the workout.
-     *
-     * @param numberOfAsanaPerformed The number of asanas performed.
-     */
-    public void setNumberOfAsanaPerformed(int numberOfAsanaPerformed) {
-        this.numberOfAsanaPerformed = numberOfAsanaPerformed;
-    }
 
     /**
      * Constructor for the Yoga class.
@@ -57,7 +56,4 @@ public class Yoga extends Workout
                 "\n Общее количество асанов: " + numberOfAsanaPerformed;
     }
 
-    public int getNumberOfAsanaPerformed() {
-        return numberOfAsanaPerformed;
-    }
 }
