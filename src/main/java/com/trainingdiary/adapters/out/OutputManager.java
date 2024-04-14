@@ -1,4 +1,4 @@
-package com.trainingdiary.out;
+package com.trainingdiary.adapters.out;
 
 /**
  * Designed for handling output operations.

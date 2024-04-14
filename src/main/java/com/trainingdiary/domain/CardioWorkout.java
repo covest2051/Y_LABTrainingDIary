@@ -1,9 +1,13 @@
-package com.trainingdiary.service.functionalservice;
+package com.trainingdiary.domain;
+
+import com.trainingdiary.adapters.in.InputManager;
+import com.trainingdiary.adapters.out.OutputManager;
 
 /**
  * Represents a cardio workout.
  */
-public class CardioWorkout extends Workout {
+public class CardioWorkout extends Workout
+{
     /**
      * The distance covered during the workout.
      */
@@ -22,9 +26,9 @@ public class CardioWorkout extends Workout {
      */
     @Override
     public void gatherWorkoutInfo() {
-        com.trainingdiary.out.OutputManager.print("Введите пройденное расстояние: ");
-        int distanceCovered = com.trainingdiary.in.InputManager.readInt();
-        com.trainingdiary.in.InputManager.readString();
+        OutputManager.print("Введите пройденное расстояние: ");
+        int distanceCovered = InputManager.readInt();
+        InputManager.readString();
         this.setDistanceCovered(distanceCovered);
     }
 

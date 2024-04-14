@@ -1,4 +1,4 @@
-package com.trainingdiary.service.functionalservice;
+package com.trainingdiary.domain;
 
 import java.time.LocalDate;
 

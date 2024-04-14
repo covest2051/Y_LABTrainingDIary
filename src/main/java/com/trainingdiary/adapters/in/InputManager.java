@@ -1,4 +1,4 @@
-package com.trainingdiary.in;
+package com.trainingdiary.adapters.in;
 
 import java.util.Scanner;
 

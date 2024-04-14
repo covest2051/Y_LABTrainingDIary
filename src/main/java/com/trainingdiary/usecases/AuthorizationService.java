@@ -1,8 +1,10 @@
-package com.trainingdiary.service.applicationservice;
+package com.trainingdiary.usecases;
 
-import com.trainingdiary.service.userservice.Admin;
-import com.trainingdiary.service.userservice.RegularUser;
-import com.trainingdiary.service.userservice.User;
+import com.trainingdiary.adapters.in.InputManager;
+import com.trainingdiary.adapters.out.OutputManager;
+import com.trainingdiary.domain.Admin;
+import com.trainingdiary.domain.RegularUser;
+import com.trainingdiary.domain.User;
 import com.trainingdiary.service.userservice.UserSession;
 
 
@@ -26,25 +28,25 @@ public class AuthorizationService {
      * @return UserSession for the registered user, or null if registration failed.
      */
     public UserSession register() {
-        com.trainingdiary.out.OutputManager.print("Введите имя пользователя:");
-        String username = com.trainingdiary.in.InputManager.readString();
+        OutputManager.print("Введите имя пользователя:");
+        String username = InputManager.readString();
         if (username.length() < MIN_USERNAME_LENGTH) {
-            com.trainingdiary.out.OutputManager.print("Имя пользователя должно содержать минимум " + MIN_USERNAME_LENGTH + " символов.");
+            OutputManager.print("Имя пользователя должно содержать минимум " + MIN_USERNAME_LENGTH + " символов.");
             return null;
         }
 
-        com.trainingdiary.out.OutputManager.print("Введите пароль:");
-        String password = com.trainingdiary.in.InputManager.readString();
+        OutputManager.print("Введите пароль:");
+        String password = InputManager.readString();
         if (password.length() < MIN_PASSWORD_LENGTH) {
-            com.trainingdiary.out.OutputManager.print("Пароль должен содержать минимум " + MIN_PASSWORD_LENGTH + " символов.");
+            OutputManager.print("Пароль должен содержать минимум " + MIN_PASSWORD_LENGTH + " символов.");
             return null;
         }
 
-        com.trainingdiary.out.OutputManager.print("Введите тип пользователя (admin или regular):");
-        String userType = com.trainingdiary.in.InputManager.readString();
+        OutputManager.print("Введите тип пользователя (admin или regular):");
+        String userType = InputManager.readString();
 
         if (users.containsKey(username)) {
-            com.trainingdiary.out.OutputManager.print("Пользователь с таким логином уже существует");
+            OutputManager.print("Пользователь с таким логином уже существует");
             return null;
         }
 
@@ -65,14 +67,14 @@ public class AuthorizationService {
      * @return UserSession for the logged-in user, or null if login failed.
      */
     public UserSession login() {
-        com.trainingdiary.out.OutputManager.print("Введите имя пользователя:");
-        String username = com.trainingdiary.in.InputManager.readString();
-        com.trainingdiary.out.OutputManager.print("Введите пароль:");
-        String password = com.trainingdiary.in.InputManager.readString();
+        OutputManager.print("Введите имя пользователя:");
+        String username = InputManager.readString();
+        OutputManager.print("Введите пароль:");
+        String password = InputManager.readString();
 
         User user = users.get(username);
         if (user == null || !user.getPassword().equals(password)) {
-            com.trainingdiary.out.OutputManager.print("Неверное имя пользователя или пароль");
+            OutputManager.print("Неверное имя пользователя или пароль");
             return null;
         }
         return new UserSession(user, this, new WorkoutService());

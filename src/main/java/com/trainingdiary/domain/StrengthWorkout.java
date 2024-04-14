@@ -1,9 +1,13 @@
-package com.trainingdiary.service.functionalservice;
+package com.trainingdiary.domain;
+
+import com.trainingdiary.adapters.in.InputManager;
+import com.trainingdiary.adapters.out.OutputManager;
 
 /**
  * Represents a strength workout.
  */
-public class StrengthWorkout extends Workout {
+public class StrengthWorkout extends Workout
+{
     /**
      * The total weight lifted during the workout.
      */
@@ -14,9 +18,9 @@ public class StrengthWorkout extends Workout {
      */
     @Override
     public void gatherWorkoutInfo() {
-        com.trainingdiary.out.OutputManager.print("Введите общий поднятый вес: ");
-        int totalWeightLifted = com.trainingdiary.in.InputManager.readInt();
-        com.trainingdiary.in.InputManager.readString();
+        OutputManager.print("Введите общий поднятый вес: ");
+        int totalWeightLifted = InputManager.readInt();
+        InputManager.readString();
         this.setTotalWeightLifted(totalWeightLifted);
     }
 

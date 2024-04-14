@@ -1,10 +1,9 @@
 package com.trainingdiary.service.userservice;
 
-import com.trainingdiary.service.applicationservice.AuthorizationService;
-import com.trainingdiary.service.applicationservice.WorkoutService;
-import com.trainingdiary.service.functionalservice.Workout;
+import com.trainingdiary.domain.User;
+import com.trainingdiary.usecases.AuthorizationService;
+import com.trainingdiary.usecases.WorkoutService;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 

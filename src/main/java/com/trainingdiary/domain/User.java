@@ -1,19 +1,19 @@
-package com.trainingdiary.service.userservice;
+package com.trainingdiary.domain;
 
+import com.trainingdiary.adapters.in.InputManager;
+import com.trainingdiary.adapters.out.OutputManager;
 import com.trainingdiary.service.applicationservice.InterfaceService;
-import com.trainingdiary.service.functionalservice.Workout;
 
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.TreeMap;
+import java.time.LocalDateTime;
+import java.util.*;
 
 /**
  * Abstract class representing a user.
  * This class should be extended by specific types of users.
  */
 public abstract class User {
+    private final List<AuditRecord> auditLog = new ArrayList<>();
     /**
      * The username of the user.
      */
@@ -36,6 +36,7 @@ public abstract class User {
     public User(String username, String password) {
         this.username = username;
         this.password = password;
+        this.auditLog.add(new AuditRecord(LocalDateTime.now(), "User created", username));
     }
 
     /**
@@ -83,29 +84,29 @@ public abstract class User {
      */
     public void viewWorkoutHistory() {
         for (Map.Entry<LocalDate, Map<String, Workout>> entry : individualWorkoutsList.entrySet()) {
-            com.trainingdiary.out.OutputManager.print("Дата: " + entry.getKey());
+            OutputManager.print("Дата: " + entry.getKey());
             for (Workout workout : entry.getValue().values()) {
-                com.trainingdiary.out.OutputManager.print("Тренировка: " + workout);
+                OutputManager.print("Тренировка: " + workout);
             }
         }
 
-        com.trainingdiary.out.OutputManager.print("1. Удалить тренировку\n2. Редактировать тренировку\n3. Вернуться назад");
-        byte choice = com.trainingdiary.in.InputManager.readByte();
-        com.trainingdiary.in.InputManager.readString();
+        OutputManager.print("1. Удалить тренировку\n2. Редактировать тренировку\n3. Вернуться назад");
+        byte choice = InputManager.readByte();
+        InputManager.readString();
         switch (choice) {
             case 1:
-                com.trainingdiary.out.OutputManager.print("Введите дату тренировки, которую хотите удалить (в формате ГГГГ-ММ-ДД):");
+                OutputManager.print("Введите дату тренировки, которую хотите удалить (в формате ГГГГ-ММ-ДД):");
                 String date = new Scanner(System.in).nextLine();
                 LocalDate workoutDate = LocalDate.parse(date);
-                com.trainingdiary.out.OutputManager.print("Введите тип тренировки, которую хотите удалить:");
+                OutputManager.print("Введите тип тренировки, которую хотите удалить:");
                 String workoutType = new Scanner(System.in).nextLine();
                 deleteWorkout(workoutDate, workoutType);
                 break;
             case 2:
-                com.trainingdiary.out.OutputManager.print("Введите дату тренировки, которую хотите редактировать (в формате ГГГГ-ММ-ДД):");
+                OutputManager.print("Введите дату тренировки, которую хотите редактировать (в формате ГГГГ-ММ-ДД):");
                 date = new Scanner(System.in).nextLine();
                 workoutDate = LocalDate.parse(date);
-                com.trainingdiary.out.OutputManager.print("Введите тип тренировки, которую хотите редактировать:");
+                OutputManager.print("Введите тип тренировки, которую хотите редактировать:");
                 workoutType = new Scanner(System.in).nextLine();
                 editWorkout(workoutDate, workoutType);
                 break;
@@ -113,7 +114,7 @@ public abstract class User {
                 InterfaceService.showRegularUserMenu();
                 break;
             default:
-                com.trainingdiary.out.OutputManager.print("Выбрано неверное значение");
+                OutputManager.print("Выбрано неверное значение");
                 System.exit(0);
         }
     }
@@ -128,7 +129,7 @@ public abstract class User {
                 totalCaloriesBurned += workout.getBurnedCalories();
             }
         }
-        com.trainingdiary.out.OutputManager.print("Общее количество сожженных калорий: " + totalCaloriesBurned);
+        OutputManager.print("Общее количество сожженных калорий: " + totalCaloriesBurned);
     }
 
     /**
@@ -140,9 +141,9 @@ public abstract class User {
     public void deleteWorkout(LocalDate date, String workoutType) {
         if (individualWorkoutsList.containsKey(date) && individualWorkoutsList.get(date).containsKey(workoutType)) {
             individualWorkoutsList.get(date).remove(workoutType);
-            com.trainingdiary.out.OutputManager.print("Тренировка успешно удалена");
+            OutputManager.print("Тренировка успешно удалена");
         } else {
-            com.trainingdiary.out.OutputManager.print("Тренировка не найдена");
+            OutputManager.print("Тренировка не найдена");
         }
     }
 
@@ -155,13 +156,13 @@ public abstract class User {
     public void editWorkout(LocalDate date, String workoutType) {
         if (individualWorkoutsList.containsKey(date) && individualWorkoutsList.get(date).containsKey(workoutType)) {
             Workout workout = individualWorkoutsList.get(date).get(workoutType);
-            com.trainingdiary.out.OutputManager.print("Введите новое количество упражнений: ");
+            OutputManager.print("Введите новое количество упражнений: ");
             byte countOfExercises = new Scanner(System.in).nextByte();
             workout.setCountOfExercises(countOfExercises);
             // здесь вы можете добавить больше полей для редактирования
-            com.trainingdiary.out.OutputManager.print("Тренировка успешно отредактирована");
+            OutputManager.print("Тренировка успешно отредактирована");
         } else {
-            com.trainingdiary.out.OutputManager.print("Тренировка не найдена");
+            OutputManager.print("Тренировка не найдена");
         }
     }
 

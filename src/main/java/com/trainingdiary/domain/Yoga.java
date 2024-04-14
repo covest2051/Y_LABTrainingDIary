@@ -1,9 +1,13 @@
-package com.trainingdiary.service.functionalservice;
+package com.trainingdiary.domain;
+
+import com.trainingdiary.adapters.in.InputManager;
+import com.trainingdiary.adapters.out.OutputManager;
 
 /**
  * Represents a yoga workout.
  */
-public class Yoga extends Workout {
+public class Yoga extends Workout
+{
 
     /**
      * The number of asana performed during the workout.
@@ -32,9 +36,9 @@ public class Yoga extends Workout {
      */
     @Override
     public void gatherWorkoutInfo() {
-        com.trainingdiary.out.OutputManager.print("Введите количество асанов: ");
-        int asanaCount = com.trainingdiary.in.InputManager.readInt();
-        com.trainingdiary.in.InputManager.readString();
+        OutputManager.print("Введите количество асанов: ");
+        int asanaCount = InputManager.readInt();
+        InputManager.readString();
         this.setNumberOfAsanaPerformed(asanaCount);
     }
 

@@ -1,9 +1,10 @@
-package com.trainingdiary.service.userservice;
+package com.trainingdiary.domain;
 
-import com.trainingdiary.service.applicationservice.AuthorizationService;
-import com.trainingdiary.service.functionalservice.Workout;
+import com.trainingdiary.adapters.out.OutputManager;
+import com.trainingdiary.usecases.AuthorizationService;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +12,7 @@ import java.util.Map;
  * Represents an admin user.
  */
 public class Admin extends User {
+    protected List<AuditRecord> auditLog = new ArrayList<>();
     /**
      * The AuthorizationService instance used for user operations.
      */
@@ -38,15 +40,15 @@ public class Admin extends User {
         if (user instanceof RegularUser) {
             List<String> auditLog = ((RegularUser) user).getAuditLog();
             if (auditLog.isEmpty()) {
-                com.trainingdiary.out.OutputManager.print("У пользователя " + username + " нет записей аудита.");
+                OutputManager.print("У пользователя " + username + " нет записей аудита.");
             } else {
-                com.trainingdiary.out.OutputManager.print("Аудит пользователя " + username + ":");
+                OutputManager.print("Аудит пользователя " + username + ":");
                 for (String log : auditLog) {
-                    com.trainingdiary.out.OutputManager.print(log);
+                    OutputManager.print(log);
                 }
             }
         } else {
-            com.trainingdiary.out.OutputManager.print("Пользователь с таким логином не найден или не является обычным пользователем");
+            OutputManager.print("Пользователь с таким логином не найден или не является обычным пользователем");
         }
     }
 
@@ -60,18 +62,18 @@ public class Admin extends User {
         if (user != null) {
             Map<LocalDate, Map<String, Workout>> workoutsList = user.getIndividualWorkoutsList();
             if (workoutsList.isEmpty()) {
-                com.trainingdiary.out.OutputManager.print("У пользователя " + username + " нет тренировок.");
+                OutputManager.print("У пользователя " + username + " нет тренировок.");
             } else {
-                com.trainingdiary.out.OutputManager.print("Тренировки пользователя " + username + ":");
+                OutputManager.print("Тренировки пользователя " + username + ":");
                 for (Map.Entry<LocalDate, Map<String, Workout>> entry : workoutsList.entrySet()) {
-                    com.trainingdiary.out.OutputManager.print("Дата: " + entry.getKey());
+                    OutputManager.print("Дата: " + entry.getKey());
                     for (Workout workout : entry.getValue().values()) {
-                        com.trainingdiary.out.OutputManager.print("Тренировка: " + workout);
+                        OutputManager.print("Тренировка: " + workout);
                     }
                 }
             }
         } else {
-            com.trainingdiary.out.OutputManager.print("Пользователь с таким логином не найден");
+            OutputManager.print("Пользователь с таким логином не найден");
         }
     }
 }

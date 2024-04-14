@@ -1,12 +1,14 @@
-package com.trainingdiary.service.applicationservice;
-import com.trainingdiary.service.functionalservice.Workout;
+package com.trainingdiary.usecases;
+import com.trainingdiary.adapters.in.InputManager;
+import com.trainingdiary.adapters.out.OutputManager;
+import com.trainingdiary.domain.Workout;
+import com.trainingdiary.service.applicationservice.InterfaceService;
 import com.trainingdiary.service.userservice.UserSession;
 
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Random;
-import java.util.Scanner;
 
 public class WorkoutService {
 
@@ -17,8 +19,8 @@ public class WorkoutService {
      */
     public static void startWorkout(Workout workoutType) {
         Instant now = Instant.now();
-        com.trainingdiary.out.OutputManager.print("Тренировка началась. Нажмите Enter когда закончите");
-        com.trainingdiary.in.InputManager.readString();
+        OutputManager.print("Тренировка началась. Нажмите Enter когда закончите");
+        InputManager.readString();
         Instant end = Instant.now();
 
         // Заполнение данных о тренировке
@@ -35,8 +37,8 @@ public class WorkoutService {
         UserSession.getCurrentUser().addWorkout(workoutType);
 
         showResults(workoutType, now, end);
-        com.trainingdiary.out.OutputManager.print("Чтобы вернуться в главное меню нажмите Enter ");
-        com.trainingdiary.in.InputManager.readString();
+        OutputManager.print("Чтобы вернуться в главное меню нажмите Enter ");
+        InputManager.readString();
         InterfaceService.showRegularUserMenu();
     }
 
@@ -59,9 +61,9 @@ public class WorkoutService {
         int burnedCalories = rand.nextInt(601) + 200;
 
         workoutType.setBurnedCalories((short) burnedCalories);
-        com.trainingdiary.out.OutputManager.print("Введите количество выполненных упражнений: ");
-        byte countOfExercises = com.trainingdiary.in.InputManager.readByte();
-        com.trainingdiary.in.InputManager.readString();
+        OutputManager.print("Введите количество выполненных упражнений: ");
+        byte countOfExercises = InputManager.readByte();
+        InputManager.readString();
         workoutType.setCountOfExercises(countOfExercises);
 
         workoutType.gatherWorkoutInfo();
@@ -69,7 +71,7 @@ public class WorkoutService {
 
 
 
-        com.trainingdiary.out.OutputManager.print(workoutType.toString());
+        OutputManager.print(workoutType.toString());
     }
 
 }

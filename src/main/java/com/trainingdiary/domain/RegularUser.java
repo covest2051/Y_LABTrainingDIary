@@ -1,6 +1,4 @@
-package com.trainingdiary.service.userservice;
-
-import com.trainingdiary.service.functionalservice.Workout;
+package com.trainingdiary.domain;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -9,7 +7,8 @@ import java.util.List;
 /**
  * Represents a regular user.
  */
-public class RegularUser extends User {
+public class RegularUser extends User
+{
     /**
      * The audit log for the user's actions.
      */

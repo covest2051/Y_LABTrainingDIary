@@ -2,15 +2,17 @@
 package com.trainingdiary.service.applicationservice;
 
 
-import com.trainingdiary.service.functionalservice.CardioWorkout;
-import com.trainingdiary.service.functionalservice.StrengthWorkout;
-import com.trainingdiary.service.functionalservice.Workout;
-import com.trainingdiary.service.functionalservice.Yoga;
-import com.trainingdiary.service.userservice.Admin;
+import com.trainingdiary.adapters.in.InputManager;
+import com.trainingdiary.adapters.out.OutputManager;
+import com.trainingdiary.domain.CardioWorkout;
+import com.trainingdiary.domain.StrengthWorkout;
+import com.trainingdiary.domain.Workout;
+import com.trainingdiary.domain.Yoga;
+import com.trainingdiary.domain.Admin;
 import com.trainingdiary.service.userservice.UserSession;
 
 
-import static com.trainingdiary.service.applicationservice.WorkoutService.*;
+import static com.trainingdiary.usecases.WorkoutService.*;
 
 /**
  * Provides user interfaces for regular users and admins.
@@ -21,27 +23,27 @@ public class InterfaceService {
      * Displays the menu for regular users.
      */
     public static void showRegularUserMenu() {
-        com.trainingdiary.out.OutputManager.print("""
+        OutputManager.print("""
                 1. Начать тренировку
                 2. История тренировок
                 3. Статистика тренировок
                 4. Выйти из аккаунта""");
-        byte choice = com.trainingdiary.in.InputManager.readByte();
-        com.trainingdiary.in.InputManager.readString();
+        byte choice = InputManager.readByte();
+        InputManager.readString();
         switch (choice) {
             case 1:
                 showStartWorkoutMenu();
                 break;
             case 2:
                 UserSession.getCurrentUser().viewWorkoutHistory();
-                com.trainingdiary.out.OutputManager.print("Чтобы вернуться в меню нажмите Enter");
-                com.trainingdiary.in.InputManager.readString();
+                OutputManager.print("Чтобы вернуться в меню нажмите Enter");
+                InputManager.readString();
                 showRegularUserMenu();
                 break;
             case 3:
                 UserSession.getCurrentUser().viewWorkoutStatistics();
-                com.trainingdiary.out.OutputManager.print("Чтобы вернуться в меню нажмите Enter");
-                com.trainingdiary.in.InputManager.readString();
+                OutputManager.print("Чтобы вернуться в меню нажмите Enter");
+                InputManager.readString();
                 showRegularUserMenu();
                 break;
             case 4:
@@ -53,24 +55,24 @@ public class InterfaceService {
      * Displays the menu for admin users.
      */
     public static void showAdminMenu() {
-        com.trainingdiary.out.OutputManager.print("""
+        OutputManager.print("""
                 1. Просмотреть тренировки пользователя
                 2. Просмотреть аудит действий пользователя
                 3. Выйти из аккаунта""");
-        byte choice = com.trainingdiary.in.InputManager.readByte();
-        com.trainingdiary.in.InputManager.readString();
+        byte choice = InputManager.readByte();
+        InputManager.readString();
         switch (choice) {
             case 1:
-                com.trainingdiary.out.OutputManager.print("Введите логин пользователя:");
-                String username = com.trainingdiary.in.InputManager.readString();
+                OutputManager.print("Введите логин пользователя:");
+                String username = InputManager.readString();
                 if (UserSession.getCurrentUser() instanceof Admin) {
                     ((Admin) UserSession.getCurrentUser()).viewUserWorkouts(username);
                 }
                 showAdminMenu();
                 break;
             case 2:
-                com.trainingdiary.out.OutputManager.print("Введите логин пользователя:");
-                username = com.trainingdiary.in.InputManager.readString();
+                OutputManager.print("Введите логин пользователя:");
+                username = InputManager.readString();
                 if (UserSession.getCurrentUser() instanceof Admin) {
                     ((Admin) UserSession.getCurrentUser()).viewUserAuditLog(username);
                 }
@@ -81,7 +83,7 @@ public class InterfaceService {
                 InterfaceService.showRegularUserMenu();
                 break;
             default:
-                com.trainingdiary.out.OutputManager.print("Выбрано неверное значение");
+                OutputManager.print("Выбрано неверное значение");
                 System.exit(0);
         }
     }
@@ -90,16 +92,16 @@ public class InterfaceService {
      * Displays the menu for starting a workout.
      */
     public static void showStartWorkoutMenu() {
-        com.trainingdiary.out.OutputManager.print("Выберите тип тренировки");
+        OutputManager.print("Выберите тип тренировки");
         showWorkoutTypes();
-        int choice = com.trainingdiary.in.InputManager.readInt();
-        com.trainingdiary.in.InputManager.readString();
+        int choice = InputManager.readInt();
+        InputManager.readString();
         Workout workout = createWorkout(choice);
         if (workout != null) {
             String workoutType = workout.getWorkoutType();
             startWorkoutIfNotDoneToday(workout, workoutType);
         } else {
-            com.trainingdiary.out.OutputManager.print("Введено неверное значение");
+            OutputManager.print("Введено неверное значение");
             showStartWorkoutMenu();
         }
     }
@@ -131,7 +133,7 @@ public class InterfaceService {
      */
     public static void startWorkoutIfNotDoneToday(Workout workout, String workoutType) {
         if (UserSession.getCurrentUser().hasWorkoutToday(workoutType)) {
-            com.trainingdiary.out.OutputManager.print("У вас уже была тренировка данного типа сегодня");
+            OutputManager.print("У вас уже была тренировка данного типа сегодня");
             showRegularUserMenu();
         } else {
             startWorkout(workout);
@@ -142,7 +144,7 @@ public class InterfaceService {
      * Displays the available workout types to the user.
      */
     static void showWorkoutTypes() {
-        com.trainingdiary.out.OutputManager.print("""
+        OutputManager.print("""
                 Выберите тип тренировки
                 1. Кардио
                 2. Силовая тренировка

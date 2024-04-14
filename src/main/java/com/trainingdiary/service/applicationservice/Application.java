@@ -1,8 +1,11 @@
 package com.trainingdiary.service.applicationservice;
 
-import com.trainingdiary.service.userservice.Admin;
-import com.trainingdiary.service.userservice.RegularUser;
+import com.trainingdiary.adapters.in.InputManager;
+import com.trainingdiary.adapters.out.OutputManager;
+import com.trainingdiary.domain.Admin;
+import com.trainingdiary.domain.RegularUser;
 import com.trainingdiary.service.userservice.UserSession;
+import com.trainingdiary.usecases.AuthorizationService;
 
 /**
  * Main entry point of the application.
@@ -30,9 +33,9 @@ public class Application {
      */
     public void run() {
         while (true) {
-            com.trainingdiary.out.OutputManager.print("1. Регистрация\n2. Вход\n3. Выход");
-            byte choice = com.trainingdiary.in.InputManager.readByte();
-            com.trainingdiary.in.InputManager.readString();
+            OutputManager.print("1. Регистрация\n2. Вход\n3. Выход");
+            byte choice = InputManager.readByte();
+            InputManager.readString();
             if (choice == 3) {
                 break;
             }
@@ -50,7 +53,7 @@ public class Application {
                     }
                     break;
                 default:
-                    com.trainingdiary.out.OutputManager.print("Выбрано неверное значение");
+                    OutputManager.print("Выбрано неверное значение");
                     System.exit(0);
             }
 
